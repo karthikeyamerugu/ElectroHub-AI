@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0b1220">
+    <meta name="description" content="ElectroHub AI - AI powered EEE Student Assistant">
+
+    <title>ElectroHub AI | EEE Student Assistant</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="logo">⚡</div>
+            <div>
+                <h1>ElectroHub AI</h1>
+                <p>EEE Student Assistant</p>
+            </div>
+        </div>
+
+        <button id="themeBtn" class="icon-btn" type="button">
+            🌙
+        </button>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <span class="badge">⚡ AI POWERED EEE TOOLKIT</span>
+
+            <h2>Learn Electrical Engineering<br>
+                <span>Smarter with AI</span>
+            </h2>
+
+            <p>
+                Ask questions, understand concepts,
+                practice problems and explore EEE topics.
+            </p>
+        </section>
+
+        <section class="chat-card">
+
+            <div class="chat-header">
+                <div class="ai-avatar">⚡</div>
+
+                <div>
+                    <h3>ElectroHub Assistant</h3>
+                    <p id="status">Ready to help</p>
+                </div>
+            </div>
+
+            <div id="chatBox" class="chat-box">
+
+                <div class="message ai-message">
+                    <div class="message-icon">⚡</div>
+
+                    <div class="bubble">
+                        Hello! 👋<br><br>
+                        I'm <strong>ElectroHub AI</strong>.
+                        Ask me an EEE question and I'll help
+                        you understand it in simple terms.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="quick-actions">
+
+                <button class="quick-btn" type="button"
+                    data-question="Explain Ohm's law in simple terms">
+                    ⚡ Ohm's Law
+                </button>
+
+                <button class="quick-btn" type="button"
+                    data-question="Explain transformer working in simple terms">
+                    🔌 Transformer
+                </button>
+
+                <button class="quick-btn" type="button"
+                    data-question="Explain Faraday's law in simple terms">
+                    🧲 Faraday's Law
+                </button>
+
+                <button class="quick-btn" type="button"
+                    data-question="What is power factor? Explain simply">
+                    📐 Power Factor
+                </button>
+
+            </div>
+
+            <div class="input-area">
+
+                <input
+                    id="userInput"
+                    type="text"
+                    placeholder="Ask an EEE question..."
+                    autocomplete="off"
+                >
+
+                <button id="sendBtn" class="send-btn" type="button">
+                    ➤
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="tools-section">
+
+            <div class="section-title">
+                <h2>EEE Tools</h2>
+                <p>Useful tools for electrical engineering students</p>
+            </div>
+
+            <div class="tool-grid">
+
+                <button class="tool-card" type="button"
+                    data-question="Give me important electrical engineering formulas">
+                    <span>📚</span>
+                    <strong>EEE Formulas</strong>
+                    <small>Important formulas</small>
+                </button>
+
+                <button class="tool-card" type="button"
+                    data-question="Give me a simple explanation of AC and DC">
+                    <span>🔋</span>
+                    <strong>AC & DC</strong>
+                    <small>Learn the basics</small>
+                </button>
+
+                <button class="tool-card" type="button"
+                    data-question="Explain electrical machines in simple terms">
+                    <span>⚙️</span>
+                    <strong>Machines</strong>
+                    <small>Motors & generators</small>
+                </button>
+
+                <button class="tool-card" type="button"
+                    data-question="Give me important power system topics for diploma EEE">
+                    <span>⚡</span>
+                    <strong>Power Systems</strong>
+                    <small>Power system topics</small>
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 ElectroHub AI</p>
+        <p>Built for EEE Students ⚡</p>
+    </footer>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
