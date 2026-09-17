@@ -1,71 +1,174 @@
-                <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#07111f"
+    >
+
+    <meta
+        name="description"
+        content="ElectroHub AI - Electrical and Electronics Engineering student assistant"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
 
     <title>ElectroHub AI | EEE Student Assistant</title>
 
-    <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#00c8ff">
+    <link
+        rel="icon"
+        type="image/png"
+        href="icon-192.png"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="icon-192.png"
+    >
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header class="header">
-    <div class="logo">
-        <span>⚡</span>
-        <div>
-            <h2>ElectroHub AI</h2>
-            <small>EEE Student Assistant</small>
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            ⚡
         </div>
+
+        <div>
+            <h1>ElectroHub AI</h1>
+            <span>EEE Student Assistant</span>
+        </div>
+
     </div>
 
-    <button id="themeToggle" class="theme-btn">🌙</button>
+    <button
+        id="themeToggle"
+        class="icon-button"
+        type="button"
+        aria-label="Toggle theme"
+    >
+        🌙
+    </button>
+
 </header>
 
 
 <main>
 
-<section class="hero">
-    <div class="hero-icon">⚡</div>
 
-    <h1>Learn Electrical Engineering Smarter</h1>
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-badge">
+        ⚡ POWERED FOR EEE STUDENTS
+    </div>
+
+    <h2>
+        Learn Electrical Engineering
+        <span>Smarter.</span>
+    </h2>
 
     <p>
-        Ask questions, solve electrical calculations,
-        learn formulas and improve your EEE knowledge.
+        Ask questions, solve calculations,
+        learn formulas and build your
+        Electrical & Electronics Engineering
+        knowledge.
     </p>
 
-    <div class="status">
-        <span></span>
-        AI Online
+    <div class="online-status">
+
+        <span class="status-dot"></span>
+
+        ElectroHub AI Online
+
     </div>
+
 </section>
 
 
-<!-- AI CHAT -->
+<!-- ================= AI CHAT ================= -->
 
 <section class="section">
 
-    <div class="section-title">
-        <h2>🤖 Ask ElectroHub AI</h2>
-        <button id="clearChat" class="clear-btn">Clear</button>
+    <div class="section-heading">
+
+        <div>
+            <span class="section-label">AI ASSISTANT</span>
+            <h2>Ask ElectroHub AI</h2>
+        </div>
+
+        <button
+            id="clearChat"
+            class="small-button"
+            type="button"
+        >
+            Clear
+        </button>
+
     </div>
 
-    <div id="chatMessages" class="chat-box"></div>
 
-    <form id="chatForm" class="chat-form">
+    <div
+        id="chatMessages"
+        class="chat-box"
+    ></div>
+
+
+    <form
+        id="chatForm"
+        class="chat-form"
+    >
 
         <input
-            type="text"
             id="userInput"
+            type="text"
             placeholder="Ask an EEE question..."
             autocomplete="off"
+            maxlength="1000"
         >
 
-        <button id="sendButton" type="submit">
+        <button
+            id="sendButton"
+            type="submit"
+        >
             Send
         </button>
 
@@ -74,42 +177,62 @@
 </section>
 
 
-<!-- QUICK QUESTIONS -->
+<!-- ================= QUICK QUESTIONS ================= -->
 
 <section class="section">
 
-    <h2>⚡ Quick Questions</h2>
+    <div class="section-heading">
+
+        <div>
+            <span class="section-label">QUICK ACCESS</span>
+            <h2>Popular Questions</h2>
+        </div>
+
+    </div>
+
 
     <div class="quick-grid">
 
-        <button class="quick-btn"
-            data-question="Explain Ohm's Law in simple terms">
-            Ohm's Law
+        <button
+            class="quick-btn"
+            data-question="Explain Ohm's Law in simple terms with an example."
+        >
+            ⚡ Ohm's Law
         </button>
 
-        <button class="quick-btn"
-            data-question="Explain Kirchhoff's Current Law in simple terms">
-            KCL
+        <button
+            class="quick-btn"
+            data-question="Explain Faraday's laws of electromagnetic induction in simple terms."
+        >
+            🧲 Faraday's Law
         </button>
 
-        <button class="quick-btn"
-            data-question="Explain transformer working principle">
-            Transformer
+        <button
+            class="quick-btn"
+            data-question="Explain how a transformer works in simple terms."
+        >
+            🔄 Transformer
         </button>
 
-        <button class="quick-btn"
-            data-question="What is slip in an induction motor?">
-            Motor Slip
+        <button
+            class="quick-btn"
+            data-question="What is slip in an induction motor? Explain with formula."
+        >
+            ⚙️ Motor Slip
         </button>
 
-        <button class="quick-btn"
-            data-question="Explain Faraday's law in simple terms">
-            Faraday's Law
+        <button
+            class="quick-btn"
+            data-question="Explain power factor in simple terms."
+        >
+            📐 Power Factor
         </button>
 
-        <button class="quick-btn"
-            data-question="Explain power factor">
-            Power Factor
+        <button
+            class="quick-btn"
+            data-question="Explain Kirchhoff's Current Law and Voltage Law."
+        >
+            🔌 Kirchhoff Laws
         </button>
 
     </div>
@@ -117,301 +240,435 @@
 </section>
 
 
-<!-- CALCULATORS -->
+<!-- ================= CALCULATORS ================= -->
 
 <section class="section">
 
-    <h2>🧮 EEE Calculators</h2>
+    <div class="section-heading">
+
+        <div>
+            <span class="section-label">ENGINEERING TOOLS</span>
+            <h2>EEE Calculators</h2>
+        </div>
+
+    </div>
+
 
     <div class="calculator-grid">
 
 
-        <!-- OHM -->
+        <!-- OHM'S LAW -->
 
-        <div class="calculator-card">
+        <article class="calculator-card">
 
-            <h3>⚡ Ohm's Law</h3>
+            <div class="calculator-icon">
+                ⚡
+            </div>
 
-            <p class="formula">
-                V = I × R
+            <h3>Ohm's Law</h3>
+
+            <p class="calculator-description">
+                Calculate voltage, current or resistance.
             </p>
 
+            <div class="formula">
+                V = I × R
+            </div>
+
             <input
-                type="number"
                 id="ohmV"
-                placeholder="Voltage V"
+                type="number"
+                placeholder="Voltage (V)"
+                step="any"
             >
 
             <input
-                type="number"
                 id="ohmI"
-                placeholder="Current A"
+                type="number"
+                placeholder="Current (A)"
+                step="any"
             >
 
             <input
-                type="number"
                 id="ohmR"
-                placeholder="Resistance Ω"
+                type="number"
+                placeholder="Resistance (Ω)"
+                step="any"
             >
 
-            <button onclick="calculateOhm()">
+            <button
+                type="button"
+                onclick="calculateOhm()"
+            >
                 Calculate
             </button>
 
-            <div id="ohmResult" class="result">
+            <div
+                id="ohmResult"
+                class="result"
+            >
                 Enter any two values.
             </div>
 
-        </div>
+        </article>
 
 
         <!-- POWER -->
 
-        <div class="calculator-card">
+        <article class="calculator-card">
 
-            <h3>🔌 Power Calculator</h3>
+            <div class="calculator-icon">
+                🔌
+            </div>
 
-            <p class="formula">
-                P = V × I
+            <h3>Power Calculator</h3>
+
+            <p class="calculator-description">
+                Calculate electrical power.
             </p>
 
+            <div class="formula">
+                P = V × I
+            </div>
+
             <input
-                type="number"
                 id="powerV"
-                placeholder="Voltage V"
+                type="number"
+                placeholder="Voltage (V)"
+                step="any"
             >
 
             <input
-                type="number"
                 id="powerI"
-                placeholder="Current A"
+                type="number"
+                placeholder="Current (A)"
+                step="any"
             >
 
-            <button onclick="calculatePower()">
+            <button
+                type="button"
+                onclick="calculatePower()"
+            >
                 Calculate
             </button>
 
-            <div id="powerResult" class="result">
+            <div
+                id="powerResult"
+                class="result"
+            >
                 Enter voltage and current.
             </div>
 
-        </div>
+        </article>
 
 
         <!-- THREE PHASE -->
 
-        <div class="calculator-card">
+        <article class="calculator-card">
 
-            <h3>🔺 3-Phase Power</h3>
+            <div class="calculator-icon">
+                🔺
+            </div>
 
-            <p class="formula">
-                P = √3 × V × I × cosφ
+            <h3>3-Phase Power</h3>
+
+            <p class="calculator-description">
+                Calculate balanced 3-phase active power.
             </p>
 
+            <div class="formula">
+                P = √3VIcosφ
+            </div>
+
             <input
-                type="number"
                 id="threeV"
-                placeholder="Line Voltage V"
+                type="number"
+                placeholder="Line Voltage (V)"
+                step="any"
             >
 
             <input
-                type="number"
                 id="threeI"
-                placeholder="Line Current A"
+                type="number"
+                placeholder="Line Current (A)"
+                step="any"
             >
 
             <input
-                type="number"
                 id="threePF"
+                type="number"
                 placeholder="Power Factor"
                 step="0.01"
+                min="0"
+                max="1"
             >
 
-            <button onclick="calculateThreePhase()">
+            <button
+                type="button"
+                onclick="calculateThreePhase()"
+            >
                 Calculate
             </button>
 
-            <div id="threeResult" class="result">
-                Enter values.
+            <div
+                id="threeResult"
+                class="result"
+            >
+                Enter all values.
             </div>
 
-        </div>
+        </article>
 
 
         <!-- ENERGY BILL -->
 
-        <div class="calculator-card">
+        <article class="calculator-card">
 
-            <h3>💰 Energy & Bill</h3>
+            <div class="calculator-icon">
+                💰
+            </div>
 
-            <p class="formula">
-                Energy = Power × Time
+            <h3>Energy & Bill</h3>
+
+            <p class="calculator-description">
+                Estimate energy consumption and cost.
             </p>
 
+            <div class="formula">
+                Units = kW × hours
+            </div>
+
             <input
-                type="number"
                 id="billPower"
-                placeholder="Power in kW"
+                type="number"
+                placeholder="Power (kW)"
+                step="any"
             >
 
             <input
-                type="number"
                 id="billHours"
+                type="number"
                 placeholder="Hours per day"
+                step="any"
             >
 
             <input
-                type="number"
                 id="billDays"
+                type="number"
                 placeholder="Number of days"
+                step="any"
             >
 
             <input
-                type="number"
                 id="billRate"
-                placeholder="Rate ₹ / unit"
+                type="number"
+                placeholder="Rate (₹ / unit)"
                 value="8"
+                step="any"
             >
 
-            <button onclick="calculateBill()">
+            <button
+                type="button"
+                onclick="calculateBill()"
+            >
                 Calculate
             </button>
 
-            <div id="billResult" class="result">
-                Enter values.
+            <div
+                id="billResult"
+                class="result"
+            >
+                Enter all values.
             </div>
 
-        </div>
+        </article>
 
 
         <!-- TRANSFORMER -->
 
-        <div class="calculator-card">
+        <article class="calculator-card">
 
-            <h3>🔄 Transformer EMF</h3>
+            <div class="calculator-icon">
+                🔄
+            </div>
 
-            <p class="formula">
-                E = 4.44 f N Φ
+            <h3>Transformer EMF</h3>
+
+            <p class="calculator-description">
+                Calculate transformer induced EMF.
             </p>
 
+            <div class="formula">
+                E = 4.44fNΦ
+            </div>
+
             <input
-                type="number"
                 id="emfF"
-                placeholder="Frequency Hz"
+                type="number"
+                placeholder="Frequency (Hz)"
+                step="any"
             >
 
             <input
-                type="number"
                 id="emfN"
+                type="number"
                 placeholder="Number of turns"
+                step="any"
             >
 
             <input
-                type="number"
                 id="emfFlux"
-                placeholder="Flux in Wb"
-                step="0.000001"
+                type="number"
+                placeholder="Flux (Wb)"
+                step="any"
             >
 
-            <button onclick="calculateEMF()">
+            <button
+                type="button"
+                onclick="calculateEMF()"
+            >
                 Calculate
             </button>
 
-            <div id="emfResult" class="result">
-                Enter values.
+            <div
+                id="emfResult"
+                class="result"
+            >
+                Enter all values.
             </div>
 
-        </div>
+        </article>
 
 
         <!-- MOTOR -->
 
-        <div class="calculator-card">
+        <article class="calculator-card">
 
-            <h3>⚙️ Motor Speed & Slip</h3>
+            <div class="calculator-icon">
+                ⚙️
+            </div>
 
-            <p class="formula">
-                Ns = 120f / P
+            <h3>Motor Speed & Slip</h3>
+
+            <p class="calculator-description">
+                Calculate synchronous speed and slip.
             </p>
 
+            <div class="formula">
+                Ns = 120f / P
+            </div>
+
             <input
-                type="number"
                 id="motorF"
-                placeholder="Frequency Hz"
+                type="number"
+                placeholder="Frequency (Hz)"
+                step="any"
             >
 
             <input
-                type="number"
                 id="motorPoles"
+                type="number"
                 placeholder="Number of poles"
+                step="1"
             >
 
             <input
-                type="number"
                 id="motorSpeed"
-                placeholder="Rotor speed rpm"
+                type="number"
+                placeholder="Rotor speed (rpm)"
+                step="any"
             >
 
-            <button onclick="calculateMotor()">
+            <button
+                type="button"
+                onclick="calculateMotor()"
+            >
                 Calculate
             </button>
 
-            <div id="motorResult" class="result">
-                Enter values.
+            <div
+                id="motorResult"
+                class="result"
+            >
+                Enter all values.
             </div>
 
-        </div>
+        </article>
 
     </div>
 
 </section>
 
 
-<!-- FORMULA LIBRARY -->
+<!-- ================= FORMULA LIBRARY ================= -->
 
 <section class="section">
 
-    <h2>📚 Formula Library</h2>
+    <div class="section-heading">
+
+        <div>
+            <span class="section-label">STUDY</span>
+            <h2>Formula Library</h2>
+        </div>
+
+    </div>
+
 
     <div class="formula-grid">
 
-        <button class="formula-btn"
-            data-question="Explain Ohm's Law and give its formula">
+        <button
+            class="formula-btn"
+            data-question="Explain Ohm's Law and all its formulas with an example."
+        >
             ⚡ Ohm's Law
         </button>
 
-        <button class="formula-btn"
-            data-question="Explain electrical power and all important power formulas">
-            🔌 Electrical Power
+        <button
+            class="formula-btn"
+            data-question="Explain electrical power formulas for DC and AC circuits."
+        >
+            🔌 Power
         </button>
 
-        <button class="formula-btn"
-            data-question="Explain 3 phase power formula">
-            🔺 3-Phase Power
+        <button
+            class="formula-btn"
+            data-question="Explain the 3-phase power equation and its terms."
+        >
+            🔺 3-Phase
         </button>
 
-        <button class="formula-btn"
-            data-question="Explain transformer EMF equation">
-            🔄 Transformer EMF
+        <button
+            class="formula-btn"
+            data-question="Explain the transformer EMF equation E = 4.44 f N Phi."
+        >
+            🔄 Transformer
         </button>
 
-        <button class="formula-btn"
-            data-question="Explain synchronous speed formula">
-            ⚙️ Synchronous Speed
+        <button
+            class="formula-btn"
+            data-question="Explain synchronous speed formula Ns = 120f/P."
+        >
+            ⚙️ Speed
         </button>
 
-        <button class="formula-btn"
-            data-question="Explain electrical energy formula">
+        <button
+            class="formula-btn"
+            data-question="Explain electrical energy and its formula."
+        >
             🔋 Energy
         </button>
 
-        <button class="formula-btn"
-            data-question="Explain power factor formula">
+        <button
+            class="formula-btn"
+            data-question="Explain power factor and its formula."
+        >
             📐 Power Factor
         </button>
 
-        <button class="formula-btn"
-            data-question="Explain efficiency formula">
+        <button
+            class="formula-btn"
+            data-question="Explain electrical efficiency formula with an example."
+        >
             📊 Efficiency
         </button>
 
@@ -420,57 +677,79 @@
 </section>
 
 
-<!-- ABOUT -->
+<!-- ================= ABOUT ================= -->
 
-<section class="about">
+<section class="about-card">
 
-    <h2>⚡ About ElectroHub AI</h2>
+    <div class="about-icon">
+        ⚡
+    </div>
+
+    <span class="section-label">
+        ABOUT THE PROJECT
+    </span>
+
+    <h2>ElectroHub AI</h2>
 
     <p>
-        ElectroHub AI is a student-focused Electrical &
-        Electronics Engineering assistant designed to help
-        students learn concepts, formulas and calculations
-        in a simple way.
+        A student-focused Electrical &
+        Electronics Engineering assistant
+        designed for learning concepts,
+        solving calculations and revising
+        important formulas.
     </p>
 
-    <div class="features">
 
-        <div>🤖 AI Assistant</div>
-        <div>🧮 Calculators</div>
-        <div>📚 Formulas</div>
-        <div>📱 Mobile Friendly</div>
+    <div class="feature-list">
+
+        <div>
+            <span>🤖</span>
+            AI Assistant
+        </div>
+
+        <div>
+            <span>🧮</span>
+            Engineering Calculators
+        </div>
+
+        <div>
+            <span>📚</span>
+            Formula Library
+        </div>
+
+        <div>
+            <span>📱</span>
+            Mobile Ready
+        </div>
 
     </div>
 
 </section>
 
+
 </main>
 
 
+<!-- ================= FOOTER ================= -->
+
 <footer>
 
-    <p>⚡ ElectroHub AI</p>
-    <small>
+    <div class="footer-logo">
+        ⚡ ElectroHub AI
+    </div>
+
+    <p>
         Learn • Calculate • Build
+    </p>
+
+    <small>
+        EEE Student Assistant
     </small>
 
 </footer>
 
 
 <script src="app.js"></script>
-  <script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function() {
-        navigator.serviceWorker.register("./service-worker.js")
-            .then(function() {
-                console.log("ElectroHub AI service worker registered.");
-            })
-            .catch(function(error) {
-                console.log("Service worker registration failed:", error);
-            });
-    });
-}
-  </script>
 
 </body>
-</html>
+  </html>
