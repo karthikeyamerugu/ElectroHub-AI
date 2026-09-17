@@ -1,267 +1,979 @@
 "use strict";
 
-/* =========================================
-   ElectroHub AI
-   Frontend prototype
-   ========================================= */
 
-const userInput = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
-const chatBox = document.getElementById("chatBox");
-const themeBtn = document.getElementById("themeBtn");
-const statusText = document.getElementById("status");
+/* ==================================================
+   ELECTROHUB AI
+   CLOUDFLARE WORKER CONNECTION
+================================================== */
 
-const quickButtons = document.querySelectorAll(".quick-btn");
-const toolCards = document.querySelectorAll(".tool-card");
+const WORKER_URL =
+    "https://tight-disk-19cd.karthikmerugu2009.workers.dev";
 
 
-/* =========================================
-   ADD MESSAGE
-   ========================================= */
+/* ==================================================
+   ELEMENTS
+================================================== */
 
-function addMessage(text, type) {
+const chatForm =
+    document.getElementById("chatForm");
 
-    const message = document.createElement("div");
+const userInput =
+    document.getElementById("userInput");
+
+const sendButton =
+    document.getElementById("sendButton");
+
+const chatMessages =
+    document.getElementById("chatMessages");
+
+const clearChatButton =
+    document.getElementById("clearChat");
+
+const themeToggle =
+    document.getElementById("themeToggle");
+
+
+/* ==================================================
+   CHAT
+================================================== */
+
+function addMessage(text, sender) {
+
+    const message =
+        document.createElement("div");
 
     message.className =
-        type === "user"
-            ? "message user-message"
-            : "message ai-message";
+        "message " + sender;
 
-    if (type === "user") {
+    message.textContent =
+        text;
 
-        message.innerHTML = `
-            <div class="bubble"></div>
-        `;
+    chatMessages.appendChild(message);
 
-    } else {
-
-        message.innerHTML = `
-            <div class="message-icon">⚡</div>
-            <div class="bubble"></div>
-        `;
-    }
-
-    const bubble = message.querySelector(".bubble");
-
-    bubble.textContent = text;
-
-    chatBox.appendChild(message);
-
-    chatBox.scrollTop = chatBox.scrollHeight;
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
 }
 
 
-/* =========================================
-   DEMO AI RESPONSE
-   ========================================= */
+function showTyping() {
 
-function getDemoResponse(question) {
+    removeTyping();
 
-    const q = question.toLowerCase();
+    const typing =
+        document.createElement("div");
 
-    if (q.includes("ohm")) {
+    typing.id =
+        "typingMessage";
 
-        return "Ohm's Law states that V = I × R. Voltage is equal to current multiplied by resistance. For example, if current is 2 A and resistance is 5 Ω, voltage is 10 V.";
+    typing.className =
+        "message ai typing-message";
 
-    }
+    typing.textContent =
+        "ElectroHub AI is thinking...";
 
-    if (q.includes("transformer")) {
+    chatMessages.appendChild(typing);
 
-        return "A transformer is a static electrical device that transfers AC electrical energy from one circuit to another through electromagnetic induction. It can increase or decrease AC voltage.";
-
-    }
-
-    if (q.includes("faraday")) {
-
-        return "Faraday's law says that an emf is induced in a circuit whenever the magnetic flux linking the circuit changes. In simple terms: changing magnetic flux produces voltage.";
-
-    }
-
-    if (q.includes("power factor")) {
-
-        return "Power factor is the ratio of real power to apparent power. For a sinusoidal AC circuit, power factor = cos φ, where φ is the phase angle between voltage and current.";
-
-    }
-
-    if (q.includes("formula")) {
-
-        return "Some useful EEE formulas: V = IR, P = VI, P = I²R, P = V²/R, f = 1/T, synchronous speed Ns = 120f/P, and energy = power × time.";
-
-    }
-
-    if (q.includes("ac") && q.includes("dc")) {
-
-        return "AC changes its direction periodically, while DC flows mainly in one direction. Household mains supply is AC, while a battery provides DC.";
-
-    }
-
-    if (q.includes("machine")) {
-
-        return "Electrical machines mainly include transformers, DC machines, induction motors, synchronous machines and special machines. Motors convert electrical energy into mechanical energy, while generators convert mechanical energy into electrical energy.";
-
-    }
-
-    if (q.includes("power system")) {
-
-        return "A power system consists mainly of generation, transmission, distribution and utilization. Important topics include transformers, transmission lines, substations, protection and power factor improvement.";
-
-    }
-
-    return "I received your question. This is the first frontend version of ElectroHub AI. The real AI engine will be connected in the next step. For now, try one of the EEE quick questions above.";
-
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
 }
 
 
-/* =========================================
+function removeTyping() {
+
+    const typing =
+        document.getElementById(
+            "typingMessage"
+        );
+
+    if (typing) {
+        typing.remove();
+    }
+}
+
+
+/* ==================================================
+   AI REQUEST
+================================================== */
+
+async function askAI(question) {
+
+    const response =
+        await fetch(
+            WORKER_URL,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    question: question
+                })
+            }
+        );
+
+
+    let data;
+
+    try {
+
+        data =
+            await response.json();
+
+    } catch (error) {
+
+        throw new Error(
+            "Invalid response from AI server."
+        );
+
+    }
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.error ||
+            "AI server returned an error."
+        );
+
+    }
+
+
+    if (
+        !data.answer ||
+        typeof data.answer !== "string"
+    ) {
+
+        throw new Error(
+            "AI did not return an answer."
+        );
+
+    }
+
+
+    return data.answer;
+}
+
+
+/* ==================================================
    SEND QUESTION
-   ========================================= */
+================================================== */
 
-function sendQuestion(question) {
+async function sendQuestion(question) {
 
-    const text = question.trim();
+    question =
+        String(question || "").trim();
 
-    if (text === "") {
+
+    if (!question) {
         return;
     }
 
-    addMessage(text, "user");
 
-    userInput.value = "";
+    addMessage(
+        question,
+        "user"
+    );
 
-    statusText.textContent = "Thinking...";
 
-    sendBtn.disabled = true;
+    userInput.value =
+        "";
 
-    setTimeout(() => {
 
-        const response = getDemoResponse(text);
+    sendButton.disabled =
+        true;
 
-        addMessage(response, "ai");
 
-        statusText.textContent = "Ready to help";
+    sendButton.textContent =
+        "Thinking...";
 
-        sendBtn.disabled = false;
+
+    showTyping();
+
+
+    try {
+
+        const answer =
+            await askAI(question);
+
+
+        removeTyping();
+
+
+        addMessage(
+            answer,
+            "ai"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "ElectroHub AI error:",
+            error
+        );
+
+
+        removeTyping();
+
+
+        addMessage(
+            "⚠️ Unable to connect to ElectroHub AI. Please check your internet connection and try again.",
+            "ai"
+        );
+
+    } finally {
+
+        sendButton.disabled =
+            false;
+
+
+        sendButton.textContent =
+            "Send";
+
 
         userInput.focus();
 
-    }, 500);
+    }
 }
 
 
-/* =========================================
-   SEND BUTTON
-   ========================================= */
+/* ==================================================
+   CHAT FORM
+================================================== */
 
-sendBtn.addEventListener("click", () => {
-
-    sendQuestion(userInput.value);
-
-});
-
-
-/* =========================================
-   ENTER KEY
-   ========================================= */
-
-userInput.addEventListener("keydown", (event) => {
-
-    if (event.key === "Enter") {
+chatForm.addEventListener(
+    "submit",
+    function(event) {
 
         event.preventDefault();
 
-        sendQuestion(userInput.value);
+        sendQuestion(
+            userInput.value
+        );
 
     }
+);
 
-});
 
-
-/* =========================================
+/* ==================================================
    QUICK QUESTIONS
-   ========================================= */
+================================================== */
 
-quickButtons.forEach((button) => {
+document
+    .querySelectorAll(".quick-btn")
+    .forEach(function(button) {
 
-    button.addEventListener("click", () => {
+        button.addEventListener(
+            "click",
+            function() {
 
-        const question = button.dataset.question;
+                const question =
+                    button.dataset.question;
 
-        if (question) {
-            sendQuestion(question);
-        }
+                if (!question) {
+                    return;
+                }
 
-    });
+                sendQuestion(
+                    question
+                );
 
-});
-
-
-/* =========================================
-   TOOL CARDS
-   ========================================= */
-
-toolCards.forEach((card) => {
-
-    card.addEventListener("click", () => {
-
-        const question = card.dataset.question;
-
-        if (question) {
-            sendQuestion(question);
-        }
+            }
+        );
 
     });
 
-});
+
+/* ==================================================
+   FORMULA BUTTONS
+================================================== */
+
+document
+    .querySelectorAll(".formula-btn")
+    .forEach(function(button) {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                const question =
+                    button.dataset.question;
+
+                if (!question) {
+                    return;
+                }
+
+                sendQuestion(
+                    question
+                );
+
+            }
+        );
+
+    });
 
 
-/* =========================================
-   DARK / LIGHT MODE
-   ========================================= */
+/* ==================================================
+   CLEAR CHAT
+================================================== */
 
-function updateThemeIcon() {
+clearChatButton.addEventListener(
+    "click",
+    function() {
 
-    if (document.body.classList.contains("light")) {
+        chatMessages.innerHTML =
+            "";
 
-        themeBtn.textContent = "☀️";
+        addMessage(
+            "Hello! I'm ElectroHub AI. Ask me any Electrical & Electronics Engineering question. ⚡",
+            "ai"
+        );
+
+    }
+);
+
+
+/* ==================================================
+   OHM'S LAW
+================================================== */
+
+function calculateOhm() {
+
+    const V =
+        parseFloat(
+            document.getElementById(
+                "ohmV"
+            ).value
+        );
+
+    const I =
+        parseFloat(
+            document.getElementById(
+                "ohmI"
+            ).value
+        );
+
+    const R =
+        parseFloat(
+            document.getElementById(
+                "ohmR"
+            ).value
+        );
+
+
+    const result =
+        document.getElementById(
+            "ohmResult"
+        );
+
+
+    const values =
+        [
+            !isNaN(V),
+            !isNaN(I),
+            !isNaN(R)
+        ].filter(Boolean).length;
+
+
+    if (values !== 2) {
+
+        result.textContent =
+            "⚠️ Enter exactly two values.";
+
+        return;
+    }
+
+
+    if (
+        !isNaN(V) &&
+        !isNaN(I)
+    ) {
+
+        if (I === 0) {
+
+            result.textContent =
+                "⚠️ Current cannot be zero.";
+
+            return;
+        }
+
+        const resistance =
+            V / I;
+
+        result.innerHTML =
+            "Resistance = <b>" +
+            formatNumber(resistance) +
+            " Ω</b>";
+
+        return;
+    }
+
+
+    if (
+        !isNaN(V) &&
+        !isNaN(R)
+    ) {
+
+        if (R === 0) {
+
+            result.textContent =
+                "⚠️ Resistance cannot be zero.";
+
+            return;
+        }
+
+        const current =
+            V / R;
+
+        result.innerHTML =
+            "Current = <b>" +
+            formatNumber(current) +
+            " A</b>";
+
+        return;
+    }
+
+
+    if (
+        !isNaN(I) &&
+        !isNaN(R)
+    ) {
+
+        const voltage =
+            I * R;
+
+        result.innerHTML =
+            "Voltage = <b>" +
+            formatNumber(voltage) +
+            " V</b>";
+
+    }
+}
+
+
+/* ==================================================
+   POWER
+================================================== */
+
+function calculatePower() {
+
+    const V =
+        parseFloat(
+            document.getElementById(
+                "powerV"
+            ).value
+        );
+
+    const I =
+        parseFloat(
+            document.getElementById(
+                "powerI"
+            ).value
+        );
+
+
+    const result =
+        document.getElementById(
+            "powerResult"
+        );
+
+
+    if (
+        isNaN(V) ||
+        isNaN(I)
+    ) {
+
+        result.textContent =
+            "⚠️ Enter voltage and current.";
+
+        return;
+    }
+
+
+    const P =
+        V * I;
+
+
+    result.innerHTML =
+        "Power = <b>" +
+        formatNumber(P) +
+        " W</b>";
+
+}
+
+
+/* ==================================================
+   THREE PHASE POWER
+================================================== */
+
+function calculateThreePhase() {
+
+    const V =
+        parseFloat(
+            document.getElementById(
+                "threeV"
+            ).value
+        );
+
+    const I =
+        parseFloat(
+            document.getElementById(
+                "threeI"
+            ).value
+        );
+
+    const PF =
+        parseFloat(
+            document.getElementById(
+                "threePF"
+            ).value
+        );
+
+
+    const result =
+        document.getElementById(
+            "threeResult"
+        );
+
+
+    if (
+        isNaN(V) ||
+        isNaN(I) ||
+        isNaN(PF)
+    ) {
+
+        result.textContent =
+            "⚠️ Enter all values.";
+
+        return;
+    }
+
+
+    if (
+        PF < 0 ||
+        PF > 1
+    ) {
+
+        result.textContent =
+            "⚠️ Power factor must be between 0 and 1.";
+
+        return;
+    }
+
+
+    const P =
+        Math.sqrt(3) *
+        V *
+        I *
+        PF;
+
+
+    result.innerHTML =
+        "Active Power = <b>" +
+        formatNumber(P) +
+        " W</b><br>" +
+
+        "Power = <b>" +
+        formatNumber(P / 1000) +
+        " kW</b>";
+
+}
+
+
+/* ==================================================
+   ENERGY & BILL
+================================================== */
+
+function calculateBill() {
+
+    const power =
+        parseFloat(
+            document.getElementById(
+                "billPower"
+            ).value
+        );
+
+    const hours =
+        parseFloat(
+            document.getElementById(
+                "billHours"
+            ).value
+        );
+
+    const days =
+        parseFloat(
+            document.getElementById(
+                "billDays"
+            ).value
+        );
+
+    const rate =
+        parseFloat(
+            document.getElementById(
+                "billRate"
+            ).value
+        );
+
+
+    const result =
+        document.getElementById(
+            "billResult"
+        );
+
+
+    if (
+        isNaN(power) ||
+        isNaN(hours) ||
+        isNaN(days) ||
+        isNaN(rate)
+    ) {
+
+        result.textContent =
+            "⚠️ Enter all values.";
+
+        return;
+    }
+
+
+    if (
+        power < 0 ||
+        hours < 0 ||
+        days < 0 ||
+        rate < 0
+    ) {
+
+        result.textContent =
+            "⚠️ Values cannot be negative.";
+
+        return;
+    }
+
+
+    const units =
+        power *
+        hours *
+        days;
+
+
+    const bill =
+        units *
+        rate;
+
+
+    result.innerHTML =
+        "Energy = <b>" +
+        formatNumber(units) +
+        " units</b><br>" +
+
+        "Estimated Bill = <b>₹" +
+        formatNumber(bill) +
+        "</b>";
+
+}
+
+
+/* ==================================================
+   TRANSFORMER EMF
+================================================== */
+
+function calculateEMF() {
+
+    const f =
+        parseFloat(
+            document.getElementById(
+                "emfF"
+            ).value
+        );
+
+    const N =
+        parseFloat(
+            document.getElementById(
+                "emfN"
+            ).value
+        );
+
+    const flux =
+        parseFloat(
+            document.getElementById(
+                "emfFlux"
+            ).value
+        );
+
+
+    const result =
+        document.getElementById(
+            "emfResult"
+        );
+
+
+    if (
+        isNaN(f) ||
+        isNaN(N) ||
+        isNaN(flux)
+    ) {
+
+        result.textContent =
+            "⚠️ Enter all values.";
+
+        return;
+    }
+
+
+    if (
+        f < 0 ||
+        N < 0 ||
+        flux < 0
+    ) {
+
+        result.textContent =
+            "⚠️ Values cannot be negative.";
+
+        return;
+    }
+
+
+    const E =
+        4.44 *
+        f *
+        N *
+        flux;
+
+
+    result.innerHTML =
+        "EMF = <b>" +
+        formatNumber(E) +
+        " V</b>";
+
+}
+
+
+/* ==================================================
+   MOTOR SPEED & SLIP
+================================================== */
+
+function calculateMotor() {
+
+    const f =
+        parseFloat(
+            document.getElementById(
+                "motorF"
+            ).value
+        );
+
+    const poles =
+        parseFloat(
+            document.getElementById(
+                "motorPoles"
+            ).value
+        );
+
+    const rotorSpeed =
+        parseFloat(
+            document.getElementById(
+                "motorSpeed"
+            ).value
+        );
+
+
+    const result =
+        document.getElementById(
+            "motorResult"
+        );
+
+
+    if (
+        isNaN(f) ||
+        isNaN(poles) ||
+        isNaN(rotorSpeed)
+    ) {
+
+        result.textContent =
+            "⚠️ Enter all values.";
+
+        return;
+    }
+
+
+    if (
+        f <= 0 ||
+        poles <= 0
+    ) {
+
+        result.textContent =
+            "⚠️ Frequency and poles must be greater than zero.";
+
+        return;
+    }
+
+
+    const synchronousSpeed =
+        (120 * f) /
+        poles;
+
+
+    const slip =
+        (
+            (
+                synchronousSpeed -
+                rotorSpeed
+            ) /
+            synchronousSpeed
+        ) * 100;
+
+
+    result.innerHTML =
+        "Synchronous Speed = <b>" +
+        formatNumber(synchronousSpeed) +
+        " rpm</b><br>" +
+
+        "Slip = <b>" +
+        formatNumber(slip) +
+        "%</b>";
+
+}
+
+
+/* ==================================================
+   NUMBER FORMATTER
+================================================== */
+
+function formatNumber(value) {
+
+    if (!Number.isFinite(value)) {
+        return "0";
+    }
+
+    return Number(
+        value.toFixed(6)
+    ).toLocaleString(
+        "en-IN"
+    );
+}
+
+
+/* ==================================================
+   THEME
+================================================== */
+
+function setTheme(theme) {
+
+    if (theme === "light") {
+
+        document.body.classList.add(
+            "light-mode"
+        );
+
+        themeToggle.textContent =
+            "☀️";
 
     } else {
 
-        themeBtn.textContent = "🌙";
+        document.body.classList.remove(
+            "light-mode"
+        );
 
+        themeToggle.textContent =
+            "🌙";
     }
-
 }
 
-
-themeBtn.addEventListener("click", () => {
-
-    document.body.classList.toggle("light");
-
-    const isLight =
-        document.body.classList.contains("light");
-
-    localStorage.setItem(
-        "electrohub-theme",
-        isLight ? "light" : "dark"
-    );
-
-    updateThemeIcon();
-
-});
-
-
-/* =========================================
-   LOAD SAVED THEME
-   ========================================= */
 
 const savedTheme =
-    localStorage.getItem("electrohub-theme");
+    localStorage.getItem(
+        "electrohub-theme"
+    ) || "dark";
 
-if (savedTheme === "light") {
 
-    document.body.classList.add("light");
+setTheme(
+    savedTheme
+);
+
+
+themeToggle.addEventListener(
+    "click",
+    function() {
+
+        const isLight =
+            document.body.classList.contains(
+                "light-mode"
+            );
+
+
+        const newTheme =
+            isLight
+                ? "dark"
+                : "light";
+
+
+        setTheme(
+            newTheme
+        );
+
+
+        localStorage.setItem(
+            "electrohub-theme",
+            newTheme
+        );
+
+    }
+);
+
+
+/* ==================================================
+   START MESSAGE
+================================================== */
+
+addMessage(
+    "Hello! I'm ElectroHub AI. Ask me any Electrical & Electronics Engineering question. ⚡",
+    "ai"
+);
+
+
+/* ==================================================
+   SERVICE WORKER STATUS
+================================================== */
+
+if (
+    "serviceWorker" in navigator
+) {
+
+    window.addEventListener(
+        "load",
+        function() {
+
+            navigator.serviceWorker
+                .register(
+                    "./service-worker.js"
+                )
+                .then(function() {
+
+                    console.log(
+                        "⚡ ElectroHub AI service worker registered."
+                    );
+
+                })
+                .catch(function(error) {
+
+                    console.error(
+                        "Service worker registration failed:",
+                        error
+                    );
+
+                });
+
+        }
+    );
 
 }
 
-updateThemeIcon();
+
+console.log(
+    "⚡ ElectroHub AI started."
+);
+
+console.log(
+    "Worker:",
+    WORKER_URL
+);
