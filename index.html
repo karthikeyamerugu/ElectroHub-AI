@@ -1,164 +1,476 @@
-<!DOCTYPE html>
+                <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#0b1220">
-    <meta name="description" content="ElectroHub AI - AI powered EEE Student Assistant">
-
     <title>ElectroHub AI | EEE Student Assistant</title>
 
     <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00c8ff">
 </head>
 
 <body>
 
-    <header class="topbar">
-        <div class="brand">
-            <div class="logo">⚡</div>
-            <div>
-                <h1>ElectroHub AI</h1>
-                <p>EEE Student Assistant</p>
+<header class="header">
+    <div class="logo">
+        <span>⚡</span>
+        <div>
+            <h2>ElectroHub AI</h2>
+            <small>EEE Student Assistant</small>
+        </div>
+    </div>
+
+    <button id="themeToggle" class="theme-btn">🌙</button>
+</header>
+
+
+<main>
+
+<section class="hero">
+    <div class="hero-icon">⚡</div>
+
+    <h1>Learn Electrical Engineering Smarter</h1>
+
+    <p>
+        Ask questions, solve electrical calculations,
+        learn formulas and improve your EEE knowledge.
+    </p>
+
+    <div class="status">
+        <span></span>
+        AI Online
+    </div>
+</section>
+
+
+<!-- AI CHAT -->
+
+<section class="section">
+
+    <div class="section-title">
+        <h2>🤖 Ask ElectroHub AI</h2>
+        <button id="clearChat" class="clear-btn">Clear</button>
+    </div>
+
+    <div id="chatMessages" class="chat-box"></div>
+
+    <form id="chatForm" class="chat-form">
+
+        <input
+            type="text"
+            id="userInput"
+            placeholder="Ask an EEE question..."
+            autocomplete="off"
+        >
+
+        <button id="sendButton" type="submit">
+            Send
+        </button>
+
+    </form>
+
+</section>
+
+
+<!-- QUICK QUESTIONS -->
+
+<section class="section">
+
+    <h2>⚡ Quick Questions</h2>
+
+    <div class="quick-grid">
+
+        <button class="quick-btn"
+            data-question="Explain Ohm's Law in simple terms">
+            Ohm's Law
+        </button>
+
+        <button class="quick-btn"
+            data-question="Explain Kirchhoff's Current Law in simple terms">
+            KCL
+        </button>
+
+        <button class="quick-btn"
+            data-question="Explain transformer working principle">
+            Transformer
+        </button>
+
+        <button class="quick-btn"
+            data-question="What is slip in an induction motor?">
+            Motor Slip
+        </button>
+
+        <button class="quick-btn"
+            data-question="Explain Faraday's law in simple terms">
+            Faraday's Law
+        </button>
+
+        <button class="quick-btn"
+            data-question="Explain power factor">
+            Power Factor
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- CALCULATORS -->
+
+<section class="section">
+
+    <h2>🧮 EEE Calculators</h2>
+
+    <div class="calculator-grid">
+
+
+        <!-- OHM -->
+
+        <div class="calculator-card">
+
+            <h3>⚡ Ohm's Law</h3>
+
+            <p class="formula">
+                V = I × R
+            </p>
+
+            <input
+                type="number"
+                id="ohmV"
+                placeholder="Voltage V"
+            >
+
+            <input
+                type="number"
+                id="ohmI"
+                placeholder="Current A"
+            >
+
+            <input
+                type="number"
+                id="ohmR"
+                placeholder="Resistance Ω"
+            >
+
+            <button onclick="calculateOhm()">
+                Calculate
+            </button>
+
+            <div id="ohmResult" class="result">
+                Enter any two values.
             </div>
+
         </div>
 
-        <button id="themeBtn" class="icon-btn" type="button">
-            🌙
-        </button>
-    </header>
 
-    <main class="container">
+        <!-- POWER -->
 
-        <section class="hero">
-            <span class="badge">⚡ AI POWERED EEE TOOLKIT</span>
+        <div class="calculator-card">
 
-            <h2>Learn Electrical Engineering<br>
-                <span>Smarter with AI</span>
-            </h2>
+            <h3>🔌 Power Calculator</h3>
 
-            <p>
-                Ask questions, understand concepts,
-                practice problems and explore EEE topics.
+            <p class="formula">
+                P = V × I
             </p>
-        </section>
 
-        <section class="chat-card">
+            <input
+                type="number"
+                id="powerV"
+                placeholder="Voltage V"
+            >
 
-            <div class="chat-header">
-                <div class="ai-avatar">⚡</div>
+            <input
+                type="number"
+                id="powerI"
+                placeholder="Current A"
+            >
 
-                <div>
-                    <h3>ElectroHub Assistant</h3>
-                    <p id="status">Ready to help</p>
-                </div>
+            <button onclick="calculatePower()">
+                Calculate
+            </button>
+
+            <div id="powerResult" class="result">
+                Enter voltage and current.
             </div>
 
-            <div id="chatBox" class="chat-box">
+        </div>
 
-                <div class="message ai-message">
-                    <div class="message-icon">⚡</div>
 
-                    <div class="bubble">
-                        Hello! 👋<br><br>
-                        I'm <strong>ElectroHub AI</strong>.
-                        Ask me an EEE question and I'll help
-                        you understand it in simple terms.
-                    </div>
-                </div>
+        <!-- THREE PHASE -->
 
+        <div class="calculator-card">
+
+            <h3>🔺 3-Phase Power</h3>
+
+            <p class="formula">
+                P = √3 × V × I × cosφ
+            </p>
+
+            <input
+                type="number"
+                id="threeV"
+                placeholder="Line Voltage V"
+            >
+
+            <input
+                type="number"
+                id="threeI"
+                placeholder="Line Current A"
+            >
+
+            <input
+                type="number"
+                id="threePF"
+                placeholder="Power Factor"
+                step="0.01"
+            >
+
+            <button onclick="calculateThreePhase()">
+                Calculate
+            </button>
+
+            <div id="threeResult" class="result">
+                Enter values.
             </div>
 
-            <div class="quick-actions">
+        </div>
 
-                <button class="quick-btn" type="button"
-                    data-question="Explain Ohm's law in simple terms">
-                    ⚡ Ohm's Law
-                </button>
 
-                <button class="quick-btn" type="button"
-                    data-question="Explain transformer working in simple terms">
-                    🔌 Transformer
-                </button>
+        <!-- ENERGY BILL -->
 
-                <button class="quick-btn" type="button"
-                    data-question="Explain Faraday's law in simple terms">
-                    🧲 Faraday's Law
-                </button>
+        <div class="calculator-card">
 
-                <button class="quick-btn" type="button"
-                    data-question="What is power factor? Explain simply">
-                    📐 Power Factor
-                </button>
+            <h3>💰 Energy & Bill</h3>
 
+            <p class="formula">
+                Energy = Power × Time
+            </p>
+
+            <input
+                type="number"
+                id="billPower"
+                placeholder="Power in kW"
+            >
+
+            <input
+                type="number"
+                id="billHours"
+                placeholder="Hours per day"
+            >
+
+            <input
+                type="number"
+                id="billDays"
+                placeholder="Number of days"
+            >
+
+            <input
+                type="number"
+                id="billRate"
+                placeholder="Rate ₹ / unit"
+                value="8"
+            >
+
+            <button onclick="calculateBill()">
+                Calculate
+            </button>
+
+            <div id="billResult" class="result">
+                Enter values.
             </div>
 
-            <div class="input-area">
+        </div>
 
-                <input
-                    id="userInput"
-                    type="text"
-                    placeholder="Ask an EEE question..."
-                    autocomplete="off"
-                >
 
-                <button id="sendBtn" class="send-btn" type="button">
-                    ➤
-                </button>
+        <!-- TRANSFORMER -->
 
+        <div class="calculator-card">
+
+            <h3>🔄 Transformer EMF</h3>
+
+            <p class="formula">
+                E = 4.44 f N Φ
+            </p>
+
+            <input
+                type="number"
+                id="emfF"
+                placeholder="Frequency Hz"
+            >
+
+            <input
+                type="number"
+                id="emfN"
+                placeholder="Number of turns"
+            >
+
+            <input
+                type="number"
+                id="emfFlux"
+                placeholder="Flux in Wb"
+                step="0.000001"
+            >
+
+            <button onclick="calculateEMF()">
+                Calculate
+            </button>
+
+            <div id="emfResult" class="result">
+                Enter values.
             </div>
 
-        </section>
+        </div>
 
-        <section class="tools-section">
 
-            <div class="section-title">
-                <h2>EEE Tools</h2>
-                <p>Useful tools for electrical engineering students</p>
+        <!-- MOTOR -->
+
+        <div class="calculator-card">
+
+            <h3>⚙️ Motor Speed & Slip</h3>
+
+            <p class="formula">
+                Ns = 120f / P
+            </p>
+
+            <input
+                type="number"
+                id="motorF"
+                placeholder="Frequency Hz"
+            >
+
+            <input
+                type="number"
+                id="motorPoles"
+                placeholder="Number of poles"
+            >
+
+            <input
+                type="number"
+                id="motorSpeed"
+                placeholder="Rotor speed rpm"
+            >
+
+            <button onclick="calculateMotor()">
+                Calculate
+            </button>
+
+            <div id="motorResult" class="result">
+                Enter values.
             </div>
 
-            <div class="tool-grid">
+        </div>
 
-                <button class="tool-card" type="button"
-                    data-question="Give me important electrical engineering formulas">
-                    <span>📚</span>
-                    <strong>EEE Formulas</strong>
-                    <small>Important formulas</small>
-                </button>
+    </div>
 
-                <button class="tool-card" type="button"
-                    data-question="Give me a simple explanation of AC and DC">
-                    <span>🔋</span>
-                    <strong>AC & DC</strong>
-                    <small>Learn the basics</small>
-                </button>
+</section>
 
-                <button class="tool-card" type="button"
-                    data-question="Explain electrical machines in simple terms">
-                    <span>⚙️</span>
-                    <strong>Machines</strong>
-                    <small>Motors & generators</small>
-                </button>
 
-                <button class="tool-card" type="button"
-                    data-question="Give me important power system topics for diploma EEE">
-                    <span>⚡</span>
-                    <strong>Power Systems</strong>
-                    <small>Power system topics</small>
-                </button>
+<!-- FORMULA LIBRARY -->
 
-            </div>
+<section class="section">
 
-        </section>
+    <h2>📚 Formula Library</h2>
 
-    </main>
+    <div class="formula-grid">
 
-    <footer>
-        <p>© 2026 ElectroHub AI</p>
-        <p>Built for EEE Students ⚡</p>
-    </footer>
+        <button class="formula-btn"
+            data-question="Explain Ohm's Law and give its formula">
+            ⚡ Ohm's Law
+        </button>
 
-    <script src="app.js"></script>
+        <button class="formula-btn"
+            data-question="Explain electrical power and all important power formulas">
+            🔌 Electrical Power
+        </button>
+
+        <button class="formula-btn"
+            data-question="Explain 3 phase power formula">
+            🔺 3-Phase Power
+        </button>
+
+        <button class="formula-btn"
+            data-question="Explain transformer EMF equation">
+            🔄 Transformer EMF
+        </button>
+
+        <button class="formula-btn"
+            data-question="Explain synchronous speed formula">
+            ⚙️ Synchronous Speed
+        </button>
+
+        <button class="formula-btn"
+            data-question="Explain electrical energy formula">
+            🔋 Energy
+        </button>
+
+        <button class="formula-btn"
+            data-question="Explain power factor formula">
+            📐 Power Factor
+        </button>
+
+        <button class="formula-btn"
+            data-question="Explain efficiency formula">
+            📊 Efficiency
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="about">
+
+    <h2>⚡ About ElectroHub AI</h2>
+
+    <p>
+        ElectroHub AI is a student-focused Electrical &
+        Electronics Engineering assistant designed to help
+        students learn concepts, formulas and calculations
+        in a simple way.
+    </p>
+
+    <div class="features">
+
+        <div>🤖 AI Assistant</div>
+        <div>🧮 Calculators</div>
+        <div>📚 Formulas</div>
+        <div>📱 Mobile Friendly</div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <p>⚡ ElectroHub AI</p>
+    <small>
+        Learn • Calculate • Build
+    </small>
+
+</footer>
+
+
+<script src="app.js"></script>
+  <script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function() {
+        navigator.serviceWorker.register("./service-worker.js")
+            .then(function() {
+                console.log("ElectroHub AI service worker registered.");
+            })
+            .catch(function(error) {
+                console.log("Service worker registration failed:", error);
+            });
+    });
+}
+  </script>
 
 </body>
 </html>
